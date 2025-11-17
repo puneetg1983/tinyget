@@ -4,20 +4,31 @@ A simple HTTP load testing tool built with .NET 8 that allows you to make parall
 
 ## Quick Start
 
-1. **Download** the appropriate executable:
-   - **Windows**: [tinyget.exe](../../releases/latest/download/tinyget.exe)
-   - **Linux/macOS**: [tinyget](../../releases/latest/download/tinyget)
-   - Or browse all [Releases](../../releases)
+### Option 1: Direct Download Links
+- **Windows**: [tinyget.exe](../../releases/latest/download/tinyget.exe)
+- **Linux/macOS**: [tinyget](../../releases/latest/download/tinyget)
+- Or browse all [Releases](../../releases)
 
-2. **Run the tool**:
-   ```bash
-   # Windows
-   tinyget.exe https://httpbin.org/json -x 5 -t
+### Option 2: Command Line Download
+```powershell
+# Windows (PowerShell/Command Prompt)
+curl -L -o tinyget.exe https://github.com/puneetg1983/tinyget/releases/latest/download/tinyget.exe
+```
 
-   # Linux/macOS (make executable first)
-   chmod +x tinyget
-   ./tinyget https://httpbin.org/json -x 5 -t
-   ```
+```bash
+# Linux/macOS
+curl -L -o tinyget https://github.com/puneetg1983/tinyget/releases/latest/download/tinyget
+chmod +x tinyget
+```
+
+### Run the tool:
+```bash
+# Windows
+tinyget.exe https://httpbin.org/json -x 5 -t
+
+# Linux/macOS
+./tinyget https://httpbin.org/json -x 5 -t
+```
 
 ## Features
 
@@ -32,16 +43,25 @@ A simple HTTP load testing tool built with .NET 8 that allows you to make parall
 
 ### Option 1: Download Pre-built Executables (Recommended)
 
-1. **Direct Downloads**:
-   - **Windows**: [tinyget.exe](../../releases/latest/download/tinyget.exe)
-   - **Linux/macOS**: [tinyget](../../releases/latest/download/tinyget)
+#### Direct Downloads:
+- **Windows**: [tinyget.exe](../../releases/latest/download/tinyget.exe)
+- **Linux/macOS**: [tinyget](../../releases/latest/download/tinyget)
+- Or browse all versions on the [Releases](../../releases) page
 
-2. Or browse all versions on the [Releases](../../releases) page
+#### Command Line Downloads:
+```powershell
+# Windows
+curl -L -o tinyget.exe https://github.com/puneetg1983/tinyget/releases/latest/download/tinyget.exe
 
-3. For Linux/macOS, make the file executable:
-   ```bash
-   chmod +x tinyget
-   ```
+# Or using PowerShell
+Invoke-WebRequest -Uri "https://github.com/puneetg1983/tinyget/releases/latest/download/tinyget.exe" -OutFile "tinyget.exe"
+```
+
+```bash
+# Linux/macOS
+curl -L -o tinyget https://github.com/puneetg1983/tinyget/releases/latest/download/tinyget
+chmod +x tinyget
+```
 
 ### Option 2: Build from Source
 
