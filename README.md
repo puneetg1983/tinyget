@@ -2,6 +2,23 @@
 
 A simple HTTP load testing tool built with .NET 8 that allows you to make parallel HTTP requests and analyze response times.
 
+## Quick Start
+
+1. **Download** the appropriate executable:
+   - **Windows**: [tinyget.exe](../../releases/latest/download/tinyget.exe)
+   - **Linux/macOS**: [tinyget](../../releases/latest/download/tinyget)
+   - Or browse all [Releases](../../releases)
+
+2. **Run the tool**:
+   ```bash
+   # Windows
+   tinyget.exe https://httpbin.org/json -x 5 -t
+
+   # Linux/macOS (make executable first)
+   chmod +x tinyget
+   ./tinyget https://httpbin.org/json -x 5 -t
+   ```
+
 ## Features
 
 - Make HTTP GET requests to any URL
@@ -13,10 +30,25 @@ A simple HTTP load testing tool built with .NET 8 that allows you to make parall
 
 ## Installation
 
-### Prerequisites
+### Option 1: Download Pre-built Executables (Recommended)
+
+1. **Direct Downloads**:
+   - **Windows**: [tinyget.exe](../../releases/latest/download/tinyget.exe)
+   - **Linux/macOS**: [tinyget](../../releases/latest/download/tinyget)
+
+2. Or browse all versions on the [Releases](../../releases) page
+
+3. For Linux/macOS, make the file executable:
+   ```bash
+   chmod +x tinyget
+   ```
+
+### Option 2: Build from Source
+
+#### Prerequisites
 - .NET 8 SDK installed on your machine
 
-### Build from Source
+#### Steps
 1. Clone the repository:
    ```bash
    git clone <repository-url>
@@ -58,22 +90,38 @@ tinyget <url> [options]
 
 #### Single Request
 ```bash
-tinyget https://example.com
+# Windows
+tinyget.exe https://example.com
+
+# Linux/macOS
+./tinyget https://example.com
 ```
 
 #### Load Testing with 50 Parallel Requests
 ```bash
-tinyget https://api.example.com/health -x 50
+# Windows
+tinyget.exe https://api.example.com/health -x 50
+
+# Linux/macOS
+./tinyget https://api.example.com/health -x 50
 ```
 
 #### Load Testing with Response Body Logging
 ```bash
-tinyget https://api.example.com/data -x 10 -t
+# Windows
+tinyget.exe https://api.example.com/data -x 10 -t
+
+# Linux/macOS
+./tinyget https://api.example.com/data -x 10 -t
 ```
 
 #### Using Long Form Options
 ```bash
-tinyget https://httpbin.org/json --threads 25 --trace
+# Windows
+tinyget.exe https://httpbin.org/json --threads 25 --trace
+
+# Linux/macOS
+./tinyget https://httpbin.org/json --threads 25 --trace
 ```
 
 ### Sample Output
@@ -123,19 +171,32 @@ Average time per request: 209.00 ms
 
 ## Running the Application
 
+### Pre-built Executables (Recommended)
+After downloading from releases:
+
+```bash
+# Windows - Run directly
+tinyget.exe https://example.com -x 10
+
+# Linux/macOS - Make executable first, then run
+chmod +x tinyget
+./tinyget https://example.com -x 10
+```
+
 ### Development Mode
+If building from source:
 ```bash
 cd tinyget
 dotnet run -- https://example.com -x 10
 ```
 
-### Standalone Executable
-After publishing, you can run the executable directly:
+### Self-built Executable
+After publishing from source:
 ```bash
 # Windows
 .\bin\Release\net8.0\win-x64\publish\tinyget.exe https://example.com -x 10
 
-# Linux/macOS (after publishing for respective platform)
+# Linux/macOS
 ./bin/Release/net8.0/linux-x64/publish/tinyget https://example.com -x 10
 ```
 

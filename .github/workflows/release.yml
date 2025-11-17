@@ -12,7 +12,7 @@ jobs:
     
     strategy:
       matrix:
-        runtime: [win-x64, linux-x64, osx-x64]
+        runtime: [win-x64, linux-x64]
     
     steps:
     - uses: actions/checkout@v4
@@ -45,19 +45,19 @@ jobs:
       id: artifact
       run: |
         if [[ "${{ matrix.runtime }}" == "win-x64" ]]; then
-          echo "filename=tinyget-${{ matrix.runtime }}.exe" >> $GITHUB_OUTPUT
+          echo "filename=tinyget.exe" >> $GITHUB_OUTPUT
           echo "path=./publish/${{ matrix.runtime }}/tinyget.exe" >> $GITHUB_OUTPUT
         else
-          echo "filename=tinyget-${{ matrix.runtime }}" >> $GITHUB_OUTPUT
+          echo "filename=tinyget" >> $GITHUB_OUTPUT
           echo "path=./publish/${{ matrix.runtime }}/tinyget" >> $GITHUB_OUTPUT
         fi
     
-    - name: Rename executable with platform suffix
+    - name: Rename executable with simple name
       run: |
         if [[ "${{ matrix.runtime }}" == "win-x64" ]]; then
-          cp ${{ steps.artifact.outputs.path }} ./tinyget-${{ matrix.runtime }}.exe
+          cp ${{ steps.artifact.outputs.path }} ./tinyget.exe
         else
-          cp ${{ steps.artifact.outputs.path }} ./tinyget-${{ matrix.runtime }}
+          cp ${{ steps.artifact.outputs.path }} ./tinyget
         fi
     
     - name: Upload release asset
@@ -71,6 +71,8 @@ jobs:
     needs: build-and-release
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
     
     steps:
     - uses: actions/checkout@v4
@@ -82,29 +84,24 @@ jobs:
         merge-multiple: true
     
     - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ github.ref_name }}
-        release_name: TinyGet ${{ github.ref_name }}
+        name: TinyGet ${{ github.ref_name }}
         body: |
           ## TinyGet Release ${{ github.ref_name }}
           
           ### Downloads
-          - **Windows (x64)**: `tinyget-win-x64.exe`
-          - **Linux (x64)**: `tinyget-linux-x64`
-          - **macOS (x64)**: `tinyget-osx-x64`
+          - **Windows (x64)**: `tinyget.exe`
+          - **Linux/macOS (x64)**: `tinyget`
           
           ### Usage
           ```bash
           # Windows
-          tinyget-win-x64.exe https://example.com -x 10 -t
+          tinyget.exe https://example.com -x 10 -t
           
           # Linux/macOS (make executable first)
-          chmod +x tinyget-linux-x64
-          ./tinyget-linux-x64 https://example.com -x 10 -t
+          chmod +x tinyget
+          ./tinyget https://example.com -x 10 -t
           ```
           
           ### What's Changed
@@ -112,37 +109,13 @@ jobs:
           - Cross-platform executables
           - Single-file deployment with trimming for smaller size
           - Direct executable download (no zip extraction needed)
+          - Simplified filenames for easier usage
           
           **Full Changelog**: https://github.com/${{ github.repository }}/compare/....${{ github.ref_name }}
+        files: |
+          tinyget.exe
+          tinyget
         draft: false
         prerelease: false
-    
-    - name: Upload Windows Release Asset
-      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./tinyget-win-x64.exe
-        asset_name: tinyget-win-x64.exe
-        asset_content_type: application/octet-stream
-    
-    - name: Upload Linux Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./tinyget-linux-x64
-        asset_name: tinyget-linux-x64
-        asset_content_type: application/octet-stream
-    
-    - name: Upload macOS Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./tinyget-osx-x64
-        asset_name: tinyget-osx-x64
-        asset_content_type: application/octet-stream
