@@ -53,7 +53,7 @@ namespace tinyget
 
             var stopwatch = Stopwatch.StartNew();
             var httpClient = new HttpClient();
-            httpClient.Timeout = TimeSpan.FromSeconds(30);
+            httpClient.Timeout = TimeSpan.FromSeconds(300);
 
             try
             {
