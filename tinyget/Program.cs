@@ -85,6 +85,7 @@ namespace tinyget
             
             try
             {
+                Console.WriteLine($"[{requestId:D3}] Sending request to {url}...");
                 var response = await httpClient.GetAsync(url);
                 requestStopwatch.Stop();
 
